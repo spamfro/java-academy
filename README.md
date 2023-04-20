@@ -31,7 +31,7 @@ docker image build \
   FROM ubuntu
   RUN --mount=type=secret,id=PASSWD \
     apt-get update && \
-    apt-get install -y sudo tmux vim curl less openjdk-17-jdk-headless && \
+    apt-get install -y sudo ssh tmux vim curl less openjdk-17-jdk-headless && \
     useradd -m -s /bin/bash -G sudo $USER && \
     cat /run/secrets/PASSWD | chpasswd
   USER $USER
@@ -65,3 +65,13 @@ cd ~/java-academy/java-fundamentials
 javac HelloWorld.java
 java HelloWorld
 ```
+
+## Connect VScode directly to the dev Java container
+Optionally, VScode can be remote connected to the docker dev Java container directly, and the `Java Extension Pack` by Microsoft can be loaded for more immersive coding and debugging experience.
+
+This requires a SSH server to be launched inside the dev Java container.
+```
+docker container exec -it dev-java bash -c 'sudo service ssh start'
+```
+
+The docker dev Java container can then be remote connected from VScode with the `Remote ssh connect to host` command, and the `ssh 172.20.0.100` connect string. 
